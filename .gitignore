@@ -1,0 +1,16 @@
+# 共通
+.DS_Store
+*.log
+.env
+
+# Node (React frontend)
+frontend/node_modules/
+frontend/.env*
+# frontend/build/
+
+# Go (backend)
+backend/.env*
+backend/.env
+backend/.env.prod
+backend/tmp/
+backend/bin/

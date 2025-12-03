@@ -1,0 +1,121 @@
+import Box from '@mui/material/Box';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import { FixedSizeList, ListChildComponentProps } from 'react-window';
+
+// interface NewsListProps {
+//     id: number;
+//     news_id: number;
+//     news_title: string;
+//     news_content: string;
+// }
+
+interface NewsItem {
+    news_id: number;
+    news_title: string;
+    news_content: string;
+}
+
+
+interface User {
+    userState: string;
+}
+
+interface PreviewNewsListProps {
+    newsList: NewsItem[];
+    userState:User;
+}
+
+
+// interface PreviewNewsListProps {
+//     news_id: number;
+//     news_title: string;
+//     news_content: string;
+// }
+
+interface PreviewNewsListItemProps extends ListChildComponentProps {
+    data: {
+      newsList: NewsItem[];
+      user: User;
+    }
+}
+
+function PreviewNewsListItem(props: PreviewNewsListItemProps) {
+    const {index, style, data} = props;
+    const newsItem = data.newsList[index];
+    const user = data.user;
+
+    return (
+        <ListItem style={style} key={index} component="div" disablePadding>
+            
+            <ListItemButton component="a" href={`${user.userState}/news/${newsItem.news_title}`} rel="noopener noreferrer">
+
+                <ListItemText primary={newsItem?.news_title} secondary={newsItem?.news_content} />
+                
+            </ListItemButton>
+
+        </ListItem>
+    );
+}
+
+// export default function NewsListBox({newsList}: {newsList: NewsListProps[]}) {
+//     return (
+//         <FixedSizeList
+//             height={150}
+//             width={360}
+//             itemSize={46}
+//             itemCount={newsList.length}
+//             overscanCount={5}
+//             itemData={newsList} // ここでnewsListを渡します
+//         >
+//             {NewsListItem}
+//         </FixedSizeList>
+//     );
+// }
+
+function PreviewNewsList({newsList, userState}:  PreviewNewsListProps) {
+    return (
+        <>
+            <Box className="news-list-box"
+                
+                sx={{marginTop: 8, zswidth: '100%', height: 200, maxWidth: 360,bgcolor: '#3591eb',borderRadius: '3%', borderTop: '5px solid #3591eb', borderBottom: '15px solid #3591eb', borderLeft: '15px solid #3591eb', borderRight: '15px solid #3591eb'}}
+            >
+                <ListItemText
+                sx={{marginLeft: '130px', marginRight: 'auto', marginBottom: '15px'}}
+                    primary="Information"
+                    primaryTypographyProps={{
+                        fontSize: 20,
+                        fontWeight: 'medium',
+                        color: 'white',
+                        letterSpacing: 0,
+                      }}
+                >
+
+                </ListItemText>
+                
+                <Box
+                    sx={{width: '100%', height: 150, maxWidth: 360, bgcolor: 'background.paper'}}
+                        // sx={{marginTop: '84px', width: '100%', height: 150, maxWidth: 360, bgcolor: 'background.paper', borderRadius: '3%', borderTop: '55px solid #3591eb', borderBottom: '20px solid #3591eb', borderLeft: '25px solid #3591eb', borderRight: '25px solid #3591eb'}}
+                >
+                    
+                    <FixedSizeList
+                        height={150}
+                        width={360}
+                        itemSize={46}
+                        itemCount={newsList.length}
+                        overscanCount={5}
+                        itemData={{newsList, user: userState}}
+                        // itemData={newsList}
+                    >
+                        {PreviewNewsListItem}
+
+                    </FixedSizeList>
+                </Box>
+            </Box>
+            
+        </>
+    )
+}
+
+export default PreviewNewsList;

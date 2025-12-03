@@ -1,0 +1,134 @@
+Go の Web フレームワーク「Gin」における Context（*gin.Context）は、HTTPリクエストとレスポンスの間で必要な情報を保持・操作するための構造体です。
+
+🔧 *gin.Context の主な役割
+1. リクエスト情報の取得
+Context を使って、HTTPメソッド、パラメータ、ヘッダー、クエリ、ボディなどを取得できます。
+
+go
+
+name := c.Query("name")           // クエリパラメータ (?name=xxx)
+id := c.Param("id")               // ルートパラメータ (/user/:id)
+json := c.ShouldBindJSON(&user)   // JSON ボディのバインド
+2. レスポンスの送信
+Context は、クライアントにレスポンスを返すのにも使います。
+
+go
+
+c.JSON(http.StatusOK, gin.H{"message": "success"})
+c.String(http.StatusBadRequest, "error")
+c.HTML(http.StatusOK, "index.tmpl", gin.H{"title": "Home"})
+3. ミドルウェア間でのデータ共有
+Gin のミドルウェアでは Context.Set() と Context.Get() を使ってデータを共有できます。
+
+go
+
+c.Set("userID", 123)
+
+id, exists := c.Get("userID")
+4. リクエストの中断や次の処理への移行
+Context.Next() や Context.Abort() を使って、ミドルウェアやハンドラの実行を制御できます。
+
+go
+
+// 中断せず次に進む
+c.Next()
+
+// ここで中断してレスポンスを返す
+c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+5. タイムアウトやキャンセルの制御
+Context.Request.Context() を通じて、標準の context.Context を取得できるので、タイムアウト制御などにも対応できます。
+
+go
+
+ctx := c.Request.Context()
+// <-ctx.Done() などでキャンセルを監視
+🧠 イメージで理解
+plaintext
+
++-------------+
+| HTTPリクエスト|
++-------------+
+       ↓
++-----------------------+
+| gin.Context            | ← 情報をやりとりする箱
+| - リクエスト情報       |
+| - レスポンス作成       |
+| - ミドルウェア用共有   |
+| - 処理の制御           |
++-----------------------+
+       ↓
++--------------+
+| HTTPレスポンス|
++--------------+
+✅ まとめ
+用途	関数例
+リクエスト取得	c.Query(), c.Param(), c.BindJSON()
+レスポンス出力	c.JSON(), c.String(), c.HTML()
+ミドルウェア共有	c.Set(), c.Get()
+処理制御	c.Next(), c.Abort()
+キャンセル・タイムアウト	c.Request.Context()
+
+🌱【まずは「コンテキスト」ってなに？】
+「コンテキスト（context）」って、かんたんに言うと…
+
+🎒「大事な道具や約束を入れておくリュックサック」みたいなもの！
+
+どこへ行くか（キャンセルしていい？終わる時間は？）
+
+なにをもっていくか（ユーザーIDやトークンなどの情報）
+
+を入れて、途中でもらった人が、なにをすればいいか分かるようにするのが「context」なんだ。
+
+🦊 Goの context.Context はどんなもの？
+Go の「context」は、プログラムの中でこんな時に使うよ：
+
+🕒 1. 時間を決める（タイムアウト）
+たとえば、何秒以内に終わらなかったら「もうやめて！」って教える。
+
+go
+
+ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+🛑 2. 「もうやめて！」と途中で止める（キャンセル）
+たとえば、お母さんが「おやつできたから宿題やめて〜！」って言うみたいに、中断できる。
+
+🥟 Ginの *gin.Context は？
+Gin の「context」はちょっとちがって、**リクエストとレスポンスの「おべんとう箱」**だよ！
+
+🍱 お弁当箱には、「きたもの（リクエスト）」と「かえすもの（レスポンス）」が入っている！
+
+たとえば：
+
+誰がアクセスしてきた？（リクエスト）
+
+「こんにちは！」って返す（レスポンス）
+
+🔍 違いをくらべてみよう！
+名前	何のため？	たとえると
+context.Context	時間を決めたり、途中で止めるための道具	⏱ タイマー付きのリュック
+*gin.Context	リクエストとレスポンスのやりとり道具	🍱 お弁当箱
+
+でもね！Ginの *gin.Context の中には、Goの context.Context が入っているんだよ！
+
+
+ctx := c.Request.Context()
+つまり：
+
+🍱お弁当箱のなかに ⏱タイマー付きのリュックが入ってる！
+
+🧁 たとえ話でまとめ！
+あなたが「レストランの店員さん」だったとしよう。
+
+お客さん（ユーザー）が来ました：「ラーメンください」
+
+お弁当箱（gin.Context）にその注文を入れます
+
+キッチンにその注文を送るときに、タイマー（context.Context）も一緒に渡します：「5分以内に作ってね！」
+
+タイマーがなったら：「もういいや、キャンセルして！」
+
+💬 さいごに一言
+🟢 Goの context は「処理の時間や中止」をコントロール
+
+🟢 Ginの context は「リクエストとレスポンス」をまとめる箱
+
+🔁 Ginの中で Goの context も使える！

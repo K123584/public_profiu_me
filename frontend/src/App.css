@@ -1,0 +1,118 @@
+/* @import-normalize; */
+.title h1{
+  margin: 0;
+}
+.title-font {
+  margin: 0;
+}
+
+html, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+ }
+body {
+  width:100%;
+	height:100%;
+	/* background-color : #FFEBEE; */
+  
+  /* ---------------- ---------------- ギンガムチェック ---------------- ---------------- */
+	/* background-image:
+		repeating-linear-gradient( 0deg, rgba(198, 40, 40, .5) 0px 8px,	transparent 8px 16px),
+		repeating-linear-gradient( 90deg, rgba(198, 40, 40, .5) 0px 8px,	transparent 8px 16px);
+     */
+  /*  ---------------- ----------------  ----------------  ----------------  ----------------   */
+  margin: 0;
+}
+
+.header-under-display-margin {
+  margin-top: 84;
+}
+
+/* .bottom-nav {
+  position: fixed;
+  margin: 0;
+  padding-bottom: 20px;
+  left: 0;
+  bottom: 0;
+  background: white;
+  height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+} */
+
+/* .bottom-nav li {
+  margin: 0 auto;
+  vertical-align: middle;
+  padding-right: 70px;
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  list-style: none;
+  text-align: center;
+} */
+
+/* .bottom-link {
+  text-decoration: none;
+} */
+
+/* .bottom-nav p {
+ margin-top: 0;
+} */
+
+
+.modern-header-box {
+  text-align: center;
+  /* margin-bottom: 50px; */
+  /* margin: 0 auto; */
+}
+.news-list-box{
+  
+  margin: 0 auto;
+ }
+
+/* .home-boxes-layout {
+  margin: 0 auto;
+} */
+
+/*消すかも */
+.news-list {
+  list-style: none;
+}
+/**/
+
+.palette-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    width:auto;
+    height: auto;
+  }
+}
