@@ -1,7 +1,7 @@
 Profiu.me 公開用レポジトリ
 プロフィールサイト作成できるwebアプリケーションです。
 
-解説↓
+解説
 https://zenn.dev/solomon72/articles/e486a30881d67a
 
 
